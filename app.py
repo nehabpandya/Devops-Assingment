@@ -45,3 +45,14 @@ def health():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+@app.route("/workouts/<int:workout_index>", methods=["DELETE"])
+def delete_workout(workout_index):
+    # Check if the provided index is valid
+    if 0 <= workout_index < len(workouts):
+        # Remove the workout at the specified index
+        deleted_workout = workouts.pop(workout_index)
+        return jsonify({"message": f"'{deleted_workout['workout']}' workout deleted successfully!"}), 200
+    else:
+        # If the index is out of range, return a 404 Not Found error
+        return jsonify({"error": "Workout not found"}), 404
